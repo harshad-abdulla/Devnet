@@ -1,6 +1,5 @@
 from netmiko import ConnectHandler
 from yaml import load
-import re
 from netmiko.ssh_exception import NetMikoTimeoutException
 from paramiko.ssh_exception import SSHException
 from netmiko.ssh_exception import AuthenticationException
@@ -41,45 +40,3 @@ def get_handle(devices):
             continue
 
         device['handle'] = handle
-
-
-def set_ospf_network(handler, pid, network, mask, area):
-    """Configure ospf for the router and returns the config commands"""
-    config_commands = ["router ospf " + pid,
-                       "network " + network + ' ' + mask + ' ' + "area " + area]
-    output = handler.send_config_set(config_commands)
-    return output
-
-
-def get_ospf_neighbours(handler):
-    """Returns the ospf neighbour"""
-    output = handler.send_command('show ip ospf neighbor')
-    return output
-
-
-def get_dr_bdr(handler):
-    """Gets the ospf neighbour data and finds the DR/BDR data"""
-    data = get_ospf_neighbours(handler)
-
-    dr_regex = re.compile(r'((FULL/DR)(\s*\d\d:\d\d:\d\d\s*)((((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3})(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))')
-    bdr_regex = re.compile(r'((FULL/BDR)(\s*\d\d:\d\d:\d\d\s*)((((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3})(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))')
-
-    dr_mo = dr_regex.search(data)
-    bdr_mo = bdr_regex.search(data)
-
-    if dr_mo is not None:
-        dr = dr_mo.group(4)
-    else:
-        dr = 0
-
-    if bdr_mo is not None:
-        bdr = bdr_mo.group(4)
-    else:
-        bdr = 0
-
-    return dr, bdr
-
-
-def disable_ospf(handler, pid):
-    output = handler.send_config_set(['no router ospf ' + pid])
-    return output

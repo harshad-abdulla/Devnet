@@ -8,16 +8,16 @@ print devices
 
 handle = get_handle(devices)
 
-#print devices
+# print devices
 
 print "Fetching raw data..."
 data = get_ospf_neighbours(devices[0]['handle'])
 print data
 
 print "Fetching DR/BDR...."
-#result = get_dr_bdr(devices[0]['handle'])
+# result = get_dr_bdr(devices[0]['handle'])
 
-#finds the DR and BDR
+# finds the DR and BDR
 for device in devices:
     print get_ospf_neighbours(device['handle'])
     dr, bdr = get_dr_bdr(device['handle'])
@@ -55,7 +55,7 @@ for device in devices:
 print 'New DR:' + str(new_dr)
 print 'New BDR:' + str(new_bdr)
 
-if bdr == new_dr :
+if bdr == new_dr and new_dr != 0:
     print '--------------TEST SUCCESS--------------------'
 else:
     print '--------------TEST FAILED--------------------'
