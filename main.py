@@ -1,7 +1,6 @@
 from automate import *
 import time
 
-
 devices = get_devices("devices.yaml")
 print devices
 

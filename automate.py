@@ -1,6 +1,9 @@
 from netmiko import ConnectHandler
 from yaml import load
 import re
+import time
+import os
+import logging
 from netmiko.ssh_exception import NetMikoTimeoutException
 from paramiko.ssh_exception import SSHException
 from netmiko.ssh_exception import AuthenticationException
@@ -41,6 +44,7 @@ def get_handle(devices):
             continue
 
         device['handle'] = handle
+    return 1
 
 
 def set_ospf_network(handler, pid, network, mask, area):
@@ -83,3 +87,37 @@ def get_dr_bdr(handler):
 def disable_ospf(handler, pid):
     output = handler.send_config_set(['no router ospf ' + pid])
     return output
+
+
+def logging_file(filename):
+    timestr = time.strftime("%Y%m%d-%H%M%S")
+    date1 = time.strftime("%Y%m%d")
+
+    log_dir = os.path.abspath('..\logs')
+    log_dir_with_date = os.path.join(log_dir, date1)
+
+    if not os.path.exists(log_dir_with_date):
+        os.makedirs(log_dir_with_date)
+
+    log_file_name = log_dir_with_date + '\\' + timestr + filename
+    logger = logging.getLogger('mytest')
+    hdlr = logging.FileHandler(log_file_name)
+    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S')
+    hdlr.setFormatter(formatter)
+    logger.addHandler(hdlr)
+    logger.setLevel(logging.INFO)
+    return logger
+
+
+def log_print(string, highlight=0):
+    highlighter = '#' * 50
+    logger = logging.getLogger('mytest')
+    if highlight:
+        print highlighter
+        logger.info(highlighter)
+    print string
+    for x in string.split('\n'):
+        logger.info(x)
+    if highlight:
+        print highlighter
+        logger.info(highlighter)

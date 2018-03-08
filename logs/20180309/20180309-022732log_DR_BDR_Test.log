@@ -1,0 +1,12 @@
+03/09/2018 02:27:32 INFO from logging_file function
+03/09/2018 02:27:32 INFO ##################################################
+03/09/2018 02:27:32 INFO Starting Test case DR_BDR_Test
+03/09/2018 02:27:32 INFO ##################################################
+03/09/2018 02:27:32 INFO DEVICE DETAILS
+03/09/2018 02:27:32 INFO [{'username': 'harshad', 'ip': '10.0.0.4', 'password': 'cisco', 'device_type': 'cisco_ios'}, {'username': 'harshad', 'ip': '10.0.0.3', 'password': 'cisco', 'device_type': 'cisco_ios'}, {'username': 'harshad', 'ip': '10.0.0.2', 'password': 'cisco', 'device_type': 'cisco_ios'}]
+03/09/2018 02:27:50 INFO Connected to: 10.0.0.4
+03/09/2018 02:27:50 INFO Connected to: 10.0.0.3
+03/09/2018 02:27:50 INFO Timeout of Device: 10.0.0.2
+03/09/2018 02:27:50 INFO ##################################################
+03/09/2018 02:27:50 INFO Test Case Failed
+03/09/2018 02:27:50 INFO ##################################################
